@@ -247,9 +247,10 @@ public class SignUpForm extends javax.swing.JFrame {
         
         if(handler.insertUser(firstNameField.getText(), lastNameField.getText(), 
                 emailField.getText(), String.valueOf(password1Field.getPassword()))){
-            JOptionPane.showMessageDialog(null, "You signed up successfully", "Success", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "You signed up successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
         }else{
-            JOptionPane.showMessageDialog(null, "Email is already registered", "Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Email is already registered", "Error", JOptionPane.ERROR_MESSAGE);
+            
         }
     }//GEN-LAST:event_signUpButtonActionPerformed
 
