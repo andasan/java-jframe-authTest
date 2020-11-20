@@ -5,6 +5,9 @@
  */
 package authtest.ui.login;
 
+import javax.swing.JOptionPane;
+import authtest.database.DatabaseHandler;
+
 /**
  *
  * @author francoispolo
@@ -14,8 +17,14 @@ public class SignUpForm extends javax.swing.JFrame {
     /**
      * Creates new form SignUpForm
      */
+    
+    DatabaseHandler handler = null;
+    
     public SignUpForm() {
+        
         initComponents();
+        handler = DatabaseHandler.getInstance();
+        
     }
 
     /**
@@ -119,6 +128,11 @@ public class SignUpForm extends javax.swing.JFrame {
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {emailField, firstNameField, lastNameField, password1Field, password2Field});
 
         signUpButton.setText("Sign Up");
+        signUpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signUpButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -179,6 +193,36 @@ public class SignUpForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private boolean markEmptyField(){
+        boolean isEmpty = false;
+        
+        if(firstNameField.getText().isEmpty()){
+            isEmpty = true;
+        }
+        
+        if(lastNameField.getText().isEmpty()){
+            isEmpty = true;
+        }
+        
+        if(emailField.getText().isEmpty()){
+            isEmpty = true;
+        }
+        
+        if(String.valueOf(password1Field.getPassword()).isEmpty()){
+            isEmpty = true;
+        }
+        
+        if(String.valueOf(password2Field.getPassword()).isEmpty()){
+            isEmpty = true;
+        }
+        
+        return isEmpty;
+    }
+    
+    private boolean matchingPasswords(){
+        return (String.valueOf(password2Field.getPassword()).equals(String.valueOf(password1Field.getPassword())));
+    }
+    
     private void signInFormButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInFormButtonActionPerformed
         // TODO add your handling code here:
         LoginForm loginForm = new LoginForm();
@@ -188,6 +232,26 @@ public class SignUpForm extends javax.swing.JFrame {
         
         this.dispose();
     }//GEN-LAST:event_signInFormButtonActionPerformed
+
+    private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonActionPerformed
+        // TODO add your handling code here:
+        if(markEmptyField()){
+            JOptionPane.showMessageDialog(null, "Please enter all field", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if(!matchingPasswords()){
+            JOptionPane.showMessageDialog(null, "Passwords should match", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if(handler.insertUser(firstNameField.getText(), lastNameField.getText(), 
+                emailField.getText(), String.valueOf(password1Field.getPassword()))){
+            JOptionPane.showMessageDialog(null, "You signed up successfully", "Success", JOptionPane.ERROR_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(null, "Email is already registered", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_signUpButtonActionPerformed
 
     /**
      * @param args the command line arguments
