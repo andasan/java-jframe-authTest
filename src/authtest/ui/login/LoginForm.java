@@ -5,7 +5,10 @@
  */
 package authtest.ui.login;
 
+import authtest.database.DatabaseHandler;
+import authtest.main.MainFrame;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,10 +19,16 @@ public class LoginForm extends javax.swing.JFrame {
     /**
      * Creates new form LoginForm
      */
+    
+    private static int userID = -1;
+    DatabaseHandler handler = null;
+    
     public LoginForm() {
         initComponents();
         setUserFieldText();
         setPasswordFieldText();
+        
+        handler = DatabaseHandler.getInstance();
     }
 
     /**
@@ -35,7 +44,7 @@ public class LoginForm extends javax.swing.JFrame {
         signUpFormButton = new javax.swing.JButton();
         signInFormButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        userField = new javax.swing.JTextField();
+        emailField = new javax.swing.JTextField();
         passwordField = new javax.swing.JPasswordField();
         jPanel5 = new javax.swing.JPanel();
         loginFormButton = new javax.swing.JButton();
@@ -78,17 +87,31 @@ public class LoginForm extends javax.swing.JFrame {
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {signInFormButton, signUpFormButton});
 
-        userField.addFocusListener(new java.awt.event.FocusAdapter() {
+        emailField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                userFieldFocusGained(evt);
+                emailFieldFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                userFieldFocusLost(evt);
+                emailFieldFocusLost(evt);
             }
         });
-        userField.addActionListener(new java.awt.event.ActionListener() {
+        emailField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userFieldActionPerformed(evt);
+                emailFieldActionPerformed(evt);
+            }
+        });
+
+        passwordField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                passwordFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                passwordFieldFocusLost(evt);
+            }
+        });
+        passwordField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordFieldActionPerformed(evt);
             }
         });
 
@@ -98,26 +121,31 @@ public class LoginForm extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(userField, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
-        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {passwordField, userField});
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {emailField, passwordField});
 
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(userField, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(45, Short.MAX_VALUE))
         );
 
-        jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {passwordField, userField});
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {emailField, passwordField});
 
         loginFormButton.setText("Log In");
+        loginFormButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginFormButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -166,22 +194,22 @@ public class LoginForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void userFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userFieldActionPerformed
+    private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_userFieldActionPerformed
+    }//GEN-LAST:event_emailFieldActionPerformed
 
-    private void userFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userFieldFocusGained
+    private void emailFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailFieldFocusGained
         // TODO add your handling code here:
-        if(userField.getForeground() == Color.gray){
-            userField.setText("");
-            userField.setForeground(null);
+        if(emailField.getForeground() == Color.gray){
+            emailField.setText("");
+            emailField.setForeground(null);
         }
-    }//GEN-LAST:event_userFieldFocusGained
+    }//GEN-LAST:event_emailFieldFocusGained
 
-    private void userFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userFieldFocusLost
+    private void emailFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailFieldFocusLost
         // TODO add your handling code here:
         setUserFieldText();
-    }//GEN-LAST:event_userFieldFocusLost
+    }//GEN-LAST:event_emailFieldFocusLost
 
     private void signUpFormButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpFormButtonActionPerformed
         // TODO add your handling code here:
@@ -193,10 +221,42 @@ public class LoginForm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_signUpFormButtonActionPerformed
 
+    private void loginFormButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginFormButtonActionPerformed
+        // TODO add your handling code here:
+        if((userID = handler.checkCredentials(emailField.getText(), String.valueOf(passwordField.getPassword()))) > 0){
+            MainFrame main = new MainFrame();
+            main.pack();
+            main.setLocationRelativeTo(null);
+            main.setVisible(true);
+            
+            this.dispose();
+        }else{
+            JOptionPane.showMessageDialog(null, "Wrong username or password", "", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_loginFormButtonActionPerformed
+
+    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordFieldActionPerformed
+
+    private void passwordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFieldFocusGained
+        // TODO add your handling code here:
+        if(passwordField.getForeground() == Color.gray){
+            passwordField.setText("");
+            passwordField.setForeground(null);
+        }
+        
+    }//GEN-LAST:event_passwordFieldFocusGained
+
+    private void passwordFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFieldFocusLost
+        // TODO add your handling code here:
+        setPasswordFieldText();
+    }//GEN-LAST:event_passwordFieldFocusLost
+
     private void setUserFieldText() {
-        if(userField.getText().isEmpty()){
-            userField.setText("Email");
-            userField.setForeground(Color.gray);
+        if(emailField.getText().isEmpty()){
+            emailField.setText("Email");
+            emailField.setForeground(Color.gray);
         }
     }
     
@@ -243,6 +303,7 @@ public class LoginForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField emailField;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -250,6 +311,5 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JButton signInFormButton;
     private javax.swing.JButton signUpFormButton;
-    private javax.swing.JTextField userField;
     // End of variables declaration//GEN-END:variables
 }

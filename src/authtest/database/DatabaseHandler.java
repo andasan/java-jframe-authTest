@@ -80,4 +80,26 @@ public class DatabaseHandler {
         return false;
     }
     
+    public int checkCredentials(String email, String password){
+        String query = "SELECT id FROM USERS WHERE email = ? AND password = ?";
+        
+        PreparedStatement preparedStatement = null;
+        
+        try{
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            if(resultSet.next()){
+                return resultSet.getInt(1);
+            }
+            
+        }catch(Exception e){
+            System.out.println("Check credentials error, " + e.getMessage());
+        }
+        
+        return -1;
+    }
 }
